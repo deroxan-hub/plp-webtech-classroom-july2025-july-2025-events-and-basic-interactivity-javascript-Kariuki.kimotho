@@ -87,11 +87,11 @@ nameInput.addEventListener("input", () => {
 });
 
 // =======================
-// 6. Form Validation
+// 6. Signup Form Validation
 // =======================
-const form = document.getElementById("signupForm");
+const signupForm = document.getElementById("signupForm");
 
-form.addEventListener("submit", (e) => {
+signupForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   let isValid = true;
@@ -138,10 +138,47 @@ form.addEventListener("submit", (e) => {
   if (isValid) {
     formMessage.textContent = "✅ Welcome to STAY! You're now part of Stray Kids fandom!";
     formMessage.style.color = "limegreen";
-    form.reset();
+    signupForm.reset();
     charCount.textContent = "0/20"; // reset counter
   } else {
     formMessage.textContent = "❌ Please fix the errors above.";
     formMessage.style.color = "red";
   }
 });
+
+
+// =======================
+// 7. Contact Form Handling with Feedback
+// =======================
+const contactForm = document.getElementById("contact-form");
+const formStatus = document.getElementById("form-status");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(contactForm);
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: contactForm.method,
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        formStatus.textContent = "✅ Message sent successfully!";
+        formStatus.className = "text-green-600 font-medium mt-3";
+        contactForm.reset();
+      } else {
+        formStatus.textContent = "❌ Oops! Something went wrong. Please try again.";
+        formStatus.className = "text-red-600 font-medium mt-3";
+      }
+    } catch (error) {
+      formStatus.textContent = "❌ Network error. Please check your connection.";
+      formStatus.className = "text-red-600 font-medium mt-3";
+    }
+  });
+}
+
+
